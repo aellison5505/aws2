@@ -104,7 +104,7 @@ RequestSigner.prototype.canonicalParams = function() {
     return querystring.escape(key) + '=' + querystring.escape(params[key])
   }).join('&');
   // Amazon signature algorithm seems to require this, fixes SimpleDB Select Errors
-  conParams = conParams.replace(/!/g,"%21");
+   conParams = conParams.replace(/!/g,"%21");
    conParams = conParams.replace(/'/g,"%27");
    conParams = conParams.replace(/\*/g,"%2A");
    conParams = conParams.replace(/\(/g,"%28");
