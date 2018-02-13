@@ -100,9 +100,16 @@ RequestSigner.prototype.stringToSign = function() {
 
 RequestSigner.prototype.canonicalParams = function() {
   var params = this.params
-  return Object.keys(params).sort().map(function(key) {
+  var conParams = Object.keys(params).sort().map(function(key) {
     return querystring.escape(key) + '=' + querystring.escape(params[key])
-  }).join('&')
+  }).join('&');
+  // Amazon signature algorithm seems to require this, fixes SimpleDB Select Errors
+  conParams = conParams.replace(/!/g,"%21");
+   conParams = conParams.replace(/'/g,"%27");
+   conParams = conParams.replace(/\*/g,"%2A");
+   conParams = conParams.replace(/\(/g,"%28");
+   conParams = conParams.replace(/\)/g,"%29");
+   return conParams
 }
 
 RequestSigner.prototype.defaultCredentials = function() {
